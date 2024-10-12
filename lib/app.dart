@@ -32,7 +32,7 @@ class _TaskManagerState extends State<TaskManager> {
         EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         fixedSize: const Size.fromWidth(double.maxFinite),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(7),
         ),
       ),
     );
@@ -42,6 +42,9 @@ class _TaskManagerState extends State<TaskManager> {
     return InputDecorationTheme(
         fillColor: Colors.white,
         filled: true,
+        hintStyle: TextStyle(
+          fontWeight: FontWeight.w300,
+        ),
         border: _inputBorder(),
        enabledBorder: _inputBorder(),
       errorBorder: _inputBorder(),

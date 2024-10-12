@@ -1,4 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:task_manager/ui/screens/forgot_password_screen.dart';
+import 'package:task_manager/ui/screens/main_bottom_nav_bar_screen.dart';
+import 'package:task_manager/ui/screens/sign_up_screen.dart';
 import 'package:task_manager/ui/utils/app_colors.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
 
@@ -21,7 +25,7 @@ class _SignInScreenState extends State<SignInScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 200,
+                height: 100,
               ),
               Text('Get Started With',
                   style: textTheme.displaySmall
@@ -30,35 +34,21 @@ class _SignInScreenState extends State<SignInScreen> {
                 height: 16,
               ),
               _buildSignInForm(),
-
-            SizedBox(height: 10,),
-
-            Center(
-              child: TextButton(onPressed: () {},
-                child: Text('Forgot Password?',
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-                )
+              SizedBox(
+                height: 10,
               ),
-            ),
               Center(
-                child: RichText(text: const TextSpan(
-                    text: "Don't have an account? ",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                    letterSpacing: 0.5,),
-                  children: [
-                    TextSpan(text: 'Sign Up', style: TextStyle(
-                      color: AppColors.themeColor,
-                    )
-                    )
-                  ]
-                  )
-                ),
-              ),
+                  child: Column(children: [
+                TextButton(
+                    onPressed: _onTapForgotPassword,
+                    child: Text(
+                      'Forgot Password?',
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                    )),
+                _buildSignUpSection(),
+              ])),
             ],
           ),
         ),
@@ -66,29 +56,72 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+  Widget _buildSignUpSection() {
+    return RichText(
+        text: TextSpan(
+            text: "Don't have an account? ",
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+              letterSpacing: 0.5,
+            ),
+            children: [
+          TextSpan(
+              text: 'Sign Up',
+              style: TextStyle(
+                color: AppColors.themeColor,
+              ),
+              recognizer: TapGestureRecognizer()..onTap = _onTapSignUp)
+        ]));
+  }
+
   Widget _buildSignInForm() {
     return Column(
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-                  ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                    hintText: "Password",
-                  ),
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                ElevatedButton(
-                    onPressed: () {},
-                    child: Icon(Icons.arrow_forward_ios)),
-              ],
-            );
+      children: [
+        TextFormField(
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            hintText: 'Email',
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        TextFormField(
+          obscureText: true,
+          decoration: InputDecoration(
+            hintText: "Password",
+          ),
+        ),
+        const SizedBox(
+          height: 24,
+        ),
+        ElevatedButton(
+            onPressed: _onTapNextButton, child: Icon(Icons.arrow_forward_ios)),
+      ],
+    );
+  }
+
+  void _onTapNextButton() {
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MainBottomNavBarScreen()),
+        (_) => false);
+  }
+
+  void _onTapForgotPassword() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()));
+  }
+
+  void _onTapSignUp() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SignUpScreen(),
+      ),
+    );
   }
 }
