@@ -5,6 +5,8 @@ import 'package:task_manager/ui/screens/new_task_screen.dart';
 import 'package:task_manager/ui/screens/progress_task_screen.dart';
 import 'package:task_manager/ui/utils/app_colors.dart';
 
+import '../widgets/tm_app_bar.dart';
+
 class MainBottomNavBarScreen extends StatefulWidget {
   const MainBottomNavBarScreen({super.key});
 
@@ -24,9 +26,8 @@ class _MainBottomNavBarScreenState extends State<MainBottomNavBarScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.themeColor,
-      ),
+      appBar: TMAppBar() ,
+
       body: _screen[_selectedIndex],
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex,
@@ -52,3 +53,4 @@ class _MainBottomNavBarScreenState extends State<MainBottomNavBarScreen> {
     );
   }
 }
+

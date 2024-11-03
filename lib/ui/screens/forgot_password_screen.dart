@@ -71,7 +71,7 @@ class _SignInScreenState extends State<ForgotPasswordScreen> {
               color: Colors.black,
               fontWeight: FontWeight.w600,
               fontSize: 16,
-              letterSpacing: 0.5,
+
             ),
             children: [
               TextSpan(

@@ -90,6 +90,7 @@ class _SignInScreenState extends State<otpScreen> {
               fieldHeight: 50,
               fieldWidth: 40,
               activeFillColor: Colors.white,
+              
               inactiveFillColor: Colors.white,
               selectedFillColor: Colors.white),
           animationDuration: Duration(milliseconds: 200),
