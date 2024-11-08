@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:task_manager/data/models/login_model.dart';
 import 'package:task_manager/data/models/network_response.dart';
 import 'package:task_manager/data/services/network_caller.dart';
 import 'package:task_manager/data/utils/urls.dart';
@@ -88,8 +89,9 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget _buildSignInForm() {
     return Form(
+      key: _formKey,
       child: Column(
-        key: _formKey,
+        // key: _formKey,
         children: [
           TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -101,6 +103,7 @@ class _SignInScreenState extends State<SignInScreen> {
               validator: (String? value) {
                 if (value?.isEmpty ?? true) {
                   return 'Enter a valid Email.';
+
                 }
                 return null;
               }),
@@ -118,8 +121,8 @@ class _SignInScreenState extends State<SignInScreen> {
                 if (value?.isEmpty ?? true) {
                   return 'Enter your Password.';
                 }
-                if (value!.length <= 6) {
-                  return 'Enter a Password more than 6 character.';
+                if (value!.length <= 3) {
+                  return 'Enter a Password more than 3 character.';
                 }
                 return null;
               }),
@@ -130,7 +133,9 @@ class _SignInScreenState extends State<SignInScreen> {
             visible: !_inProgress,
             replacement: CircularProgressIndicator(),
             child: ElevatedButton(
-                onPressed: _onTapNextButton,
+                onPressed: (){
+                  _onTapNextButton();
+                },
                 child: Icon(Icons.arrow_forward_ios)),
           ),
         ],
@@ -143,6 +148,7 @@ class _SignInScreenState extends State<SignInScreen> {
       return;
     }
     _signIn();
+
   }
 
   Future<void> _signIn() async {
@@ -159,11 +165,15 @@ class _SignInScreenState extends State<SignInScreen> {
     _inProgress = false;
     setState(() {});
     if (response.isSuccess) {
-      await AuthController.saveAccessToken('token');
+      LoginModel loginModel = LoginModel.fromJson(response.responseData);
+
+      await AuthController.saveAccessToken(loginModel.token!);
+      await AuthController.saveUserData(loginModel.data!);
+
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => MainBottomNavBarScreen()),
-          (_) => false);
+          (value) => false);
     } else {
       showSnackBarMessage(context, response.errorMessage, true);
     }

@@ -179,8 +179,9 @@ class _SignInScreenState extends State<SignUpScreen> {
 
   void _onTapNextButton() {
     if (!_formKey.currentState!.validate()) {
-      _signUp();
+      return;
     }
+    _signUp();
   }
 
     Future<void> _signUp() async {
@@ -192,14 +193,17 @@ class _SignInScreenState extends State<SignUpScreen> {
         "firstName": _firstnameTEController.text.trim(),
         "lastName": _lastnameTEController.text.trim(),
         "mobile": _mobileTEController.text.trim(),
-        "password": _passwordTEController.text.trim(),
+        "password": _passwordTEController.text,
         "photo": ""
       };
-      NetworkResponse response =
+       NetworkResponse response =
       await NetworkCaller.postRequest(
         url: urls.registration,
         body: requestBody,
       );
+       _inProgress=false;
+       setState(() {
+       });
       if (response.isSuccess) {
         _clearTextFields();
         showSnackBarMessage(context, 'New user created');
