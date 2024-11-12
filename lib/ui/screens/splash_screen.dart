@@ -16,7 +16,6 @@ class _splashScreenState extends State<splashScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _moveToNextScreen();
   }
